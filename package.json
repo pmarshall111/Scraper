@@ -1,0 +1,9 @@
+{
+  "name": "",
+  "version": "",
+  "dependencies": {
+    "axios": "^0.17.1",
+    "jquery": "^3.2.1",
+    "jsdom": "^11.5.1"
+  }
+}

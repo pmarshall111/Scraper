@@ -1,0 +1,2 @@
+- Currently gets the results for the current day but also the day before for some reason.
+- If can't find fix, would need to make 2 ajax requests and filter the second one for ones that aren't in the day before

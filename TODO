@@ -1,2 +1,7 @@
-- Currently gets the results for the current day but also the day before for some reason.
-- If can't find fix, would need to make 2 ajax requests and filter the second one for ones that aren't in the day before
+-What does the scrape look like if the game has not started yet?
+-Also need to add in a game start date and time to match Schema.
+-Need to fully decide on how I will link team Schemas with the match and vice versa.
+
+
+-Once above is complete, continue TDD with setting up Express server to give over whatever info
+we ask for.

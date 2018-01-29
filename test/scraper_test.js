@@ -1,15 +1,14 @@
 const assert = require("assert");
-const parseToday = require("../parseToday");
-const parseGame = require("../parseGame");
+const parseToday = require("../scraper/parseToday");
+const parseGame = require("../scraper/parseGame");
 
 describe("Scraper is working", () => {
   const testURL = "http://www.goal.com/en-gb/results/2018-01-20";
   const testGame =
     "http://www.goal.com/en-gb/match/brighton-hove-albion-v-chelsea/commentary-result/9unb353du33x16bcqa4kdt9ii";
 
-  it("function parseToday can get information from link known to have data", done => {
+  it("function parseToday can get information from link known to have data (can incorrectly fail - try again with console log func argument)", done => {
     parseToday(testURL).then(results => {
-      // console.log(results);
       assert(results.length === 8);
       done();
     });
@@ -17,7 +16,7 @@ describe("Scraper is working", () => {
 
   it("function parseToday can get team name", done => {
     parseToday(testURL).then(results => {
-      assert(results[0].awayTeam === "Chelsea");
+      assert(results[0].awayTeam.name === "Chelsea");
       done();
     });
   });
@@ -47,7 +46,7 @@ describe("Scraper is working", () => {
     });
   });
 
-  it("both functions work together to get individual game info", done => {
+  it("both functions work together to get individual game info (can incorrectly fail - try again with console log func argument)", done => {
     parseToday(testURL).then(day => {
       parseGame(day[0].matchLink).then(game => {
         assert(game.events[0].player === "C. Musonda");

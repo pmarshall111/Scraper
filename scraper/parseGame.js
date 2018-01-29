@@ -11,48 +11,50 @@ async function parseGame(url) {
 
   var matchEvents = $(".event");
 
-  // console.log(matchEvents.length);
+  var events = [];
   matchEvents = Array.from(matchEvents);
-  var goalAssistRed = matchEvents.filter(e => {
+
+  matchEvents.forEach(e => {
     var type = $(e)
       .find(".event-text-additional")
-      .html();
-    // console.log(type);
-    if (["Goal", "Assist", "Red Card", "Penalty Goal"].includes(type.trim()))
-      return e;
-  });
+      .html()
+      .trim();
 
-  var events = [];
-  goalAssistRed.forEach(d => {
-    var team = $(d)
-      .find(".team-away")
-      .children().length;
-    var opposition, homeEvent;
-    if (team === 1) {
-      team = awayTeam;
-      opposition = homeTeam;
-      homeEvent = false;
-    } else {
-      team = homeTeam;
-      opposition = awayTeam;
-      homeEvent = true;
+    if (
+      ["Goal", "Assist", "Red Card", "Penalty Goal", "Own Goal"].includes(
+        type.trim()
+      )
+    ) {
+      var team = $(e)
+        .find(".team-away")
+        .children().length;
+      var opposition, homeEvent;
+      if (
+        (team === 1 && type !== "Own Goal") ||
+        (team === 0 && type === "Own Goal")
+      ) {
+        team = awayTeam;
+        opposition = homeTeam;
+        homeEvent = false;
+      } else {
+        team = homeTeam;
+        opposition = awayTeam;
+        homeEvent = true;
+      }
+
+      var time = $(e)
+        .find(".event-time")
+        .html()
+        .trim();
+      var player = $(e)
+        .find(".event-text-main")
+        .html()
+        .trim();
+
+      events.push({ time, player, action: type, team, opposition, homeEvent });
     }
-
-    var time = $(d)
-      .find(".event-time")
-      .html()
-      .trim();
-    var player = $(d)
-      .find(".event-text-main")
-      .html()
-      .trim();
-    var action = $(d)
-      .find(".event-text-additional")
-      .html()
-      .trim();
-
-    events.push({ time, player, action, team, opposition, homeEvent });
   });
+
   var location = $(".widget-match-header__venue-name")
     .html()
     .trim();
